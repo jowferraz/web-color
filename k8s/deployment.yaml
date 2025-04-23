@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: webcolor
 spec:
+  replicas: 10
   selector:
     matchLabels:
       app: webcolor
@@ -10,14 +11,10 @@ spec:
     metadata:
       labels:
         app: webcolor
-      annotations:
-        prometheus.io/scrape: 'true'
-        prometheus.io/path: '/metrics'
-        prometheus.io/port: '80'
     spec:
       containers:
       - name: webcolor
-        image: fabricioveronez/web-color:green
+        image: kubedevio/web-color:blue
         ports:
         - containerPort: 80
 ---
@@ -29,7 +26,6 @@ spec:
   selector:
     app: webcolor
   ports:
-  - port: 80
+  - port: 80  
     targetPort: 80
-  type: LoadBalancer
-
+  type: NodePort
